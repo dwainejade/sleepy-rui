@@ -29,7 +29,7 @@ const MovieDetails = ({ tmdbId }: { tmdbId: string }) => {
 
   return (
     <img
-      className="poster"
+      className="movie-poster"
       src={`${imageBaseUrl}${posterSize}${movieDetails?.poster_path}`}
       alt={movieDetails?.title || "Movie poster"}
     />

@@ -1,11 +1,11 @@
 import React from "react";
-import MovieComponent from "./components/MovieComponent";
+import Movie from "./components/Movie";
 import "./App.css";
 
 const App = () => {
   return (
     <>
-      <MovieComponent />
+      <Movie />
     </>
   );
 };
