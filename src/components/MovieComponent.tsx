@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchMovies } from "../utils/api";
+import MovieDetails from "./MovieDetails";
 
 // Component to display movies
 const MovieComponent = () => {
@@ -21,7 +22,7 @@ const MovieComponent = () => {
       {data?.result.map((movie) => (
         <div key={movie.tmdb_id}>
           <h3>{movie.title}</h3>
-          <h4>{movie.tmdb_id}</h4>
+          <MovieDetails tmdbId={movie.tmdb_id} />
         </div>
       ))}
     </div>
