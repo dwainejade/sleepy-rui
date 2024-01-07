@@ -4,6 +4,7 @@ import { fetchMovieDetails } from "../utils/api";
 import { useMovieStore } from "../store/store";
 
 const MovieDetails = () => {
+  const { mediaType } = useMovieStore();
   const { tmdbId } = useParams(); // This hooks allow us to access the URL parameters
   const [movieDetails, setMovieDetails] = useState(null); // State to store movie details
   const [isLoading, setIsLoading] = useState(true); // State to handle loading
@@ -14,7 +15,7 @@ const MovieDetails = () => {
       setIsLoading(true); // Start loading
 
       try {
-        const details = await fetchMovieDetails(tmdbId);
+        const details = await fetchMovieDetails(tmdbId, mediaType);
         setMovieDetails(details);
       } catch (error) {
         setError(error.message || "Failed to fetch movie details");
