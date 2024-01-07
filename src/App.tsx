@@ -4,7 +4,7 @@ import "./App.css";
 import { useMovieStore } from "./store/store";
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState("millions");
+  const [searchTerm, setSearchTerm] = useState("");
   const { page, setPage, mediaType, setMediaType } = useMovieStore();
 
   const handleSearch = (e) => {
