@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { fetchMovieDetails } from "../utils/api";
+import { useMovieStore } from "../store/store";
 
 const imageBaseUrl = "https://image.tmdb.org/t/p/";
 const posterSize = "w500"; // You can choose other sizes as needed
 
 const MovieDetails = ({ tmdbId }: { tmdbId: string }) => {
+  const { mediaType } = useMovieStore();
   const [movieDetails, setMovieDetails] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,7 +14,7 @@ const MovieDetails = ({ tmdbId }: { tmdbId: string }) => {
   useEffect(() => {
     const getMovieDetails = async () => {
       try {
-        const details = await fetchMovieDetails(tmdbId);
+        const details = await fetchMovieDetails(tmdbId, mediaType);
         setMovieDetails(details);
         setIsLoading(false);
       } catch (error: any) {

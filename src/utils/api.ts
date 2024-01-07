@@ -10,10 +10,16 @@ export interface MoviesApiResponse {
   result: Movie[];
   pages: number;
 }
+const TMDB_API_KEY = "fe83f410ea31af5d6f64a7a00e0d5832"; // Replace with your actual API key
 
 // Function to fetch movies
-export const fetchMovies = async (): Promise<MoviesApiResponse> => {
-  const response = await fetch("https://vidsrc.xyz/movies/latest/page-1.json");
+export const fetchMovies = async (
+  page: number = 1,
+  mediaType: string = "movie",
+): Promise<MoviesApiResponse> => {
+  const response = await fetch(
+    `https://vidsrc.xyz/${mediaType}/latest/page-${page}.json`,
+  );
 
   if (!response.ok) {
     throw new Error("Network response was not ok");
@@ -24,8 +30,10 @@ export const fetchMovies = async (): Promise<MoviesApiResponse> => {
 };
 
 // Function to fetch movie details from TMDb API
-export const fetchMovieDetails = async (tmdbId: string): Promise<any> => {
-  const apiKey = "fe83f410ea31af5d6f64a7a00e0d5832"; // Replace with your actual API key
+export const fetchMovieDetails = async (
+  tmdbId: string,
+  mediaType: string,
+): Promise<any> => {
   const options = {
     method: "GET",
     headers: {
@@ -33,8 +41,9 @@ export const fetchMovieDetails = async (tmdbId: string): Promise<any> => {
       Authorization: "Bearer fe83f410ea31af5d6f64a7a00e0d5832",
     },
   };
+  const media = mediaType === "movies" ? "movie" : "tv";
 
-  const url = `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${apiKey}&language=en-US`;
+  const url = `https://api.themoviedb.org/3/${media}/${tmdbId}?api_key=${TMDB_API_KEY}&language=en-US`;
 
   const response = await fetch(url, options);
 
@@ -44,4 +53,18 @@ export const fetchMovieDetails = async (tmdbId: string): Promise<any> => {
 
   const data = await response.json();
   return data;
+};
+
+// Function to search movies in TMDb
+export const searchMoviesInTMDb = async (query: string): Promise<any> => {
+  const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&language=en-US&query=${encodeURIComponent(
+    query,
+  )}`;
+  console.log(url);
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Failed to fetch search results");
+  }
+
+  return response.json();
 };
