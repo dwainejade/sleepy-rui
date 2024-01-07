@@ -9,7 +9,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { page, setPage, mediaType, setMediaType } = useMovieStore();
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
@@ -42,7 +42,7 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Movie searchTerm={searchTerm} />} />
-        <Route path="/movie/:tmdbId" element={<MovieDetails />} />
+        {/* <Route path="/movie/:tmdbId" element={<MovieDetails />} /> */}
       </Routes>
 
       {/* Pagination (Consider moving inside Movie if it's only relevant there) */}

@@ -5,8 +5,11 @@ import MovieDetails from "./MovieDetails";
 import { useMovieStore } from "../store/store";
 import { useEffect } from "react";
 
+type MovieProps = {
+  searchTerm: string;
+};
 // Component to display movies
-const Movie = ({ searchTerm }) => {
+const Movie = ({ searchTerm }: MovieProps) => {
   const [searchResults, setSearchResults] = useState([]);
   const { page, mediaType } = useMovieStore();
 
