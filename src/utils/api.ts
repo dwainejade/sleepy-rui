@@ -56,8 +56,12 @@ export const fetchMovieDetails = async (
 };
 
 // Function to search movies in TMDb
-export const searchMoviesInTMDb = async (query: string): Promise<any> => {
-  const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&language=en-US&query=${encodeURIComponent(
+export const searchMoviesInTMDb = async (
+  query: string,
+  mediaType: string,
+): Promise<any> => {
+  const media = mediaType === "movies" ? "movie" : "tv";
+  const url = `https://api.themoviedb.org/3/search/${media}?api_key=${TMDB_API_KEY}&language=en-US&query=${encodeURIComponent(
     query,
   )}`;
   console.log(url);

@@ -15,7 +15,7 @@ const Movie = ({ searchTerm }) => {
     if (searchTerm) {
       const performSearch = async () => {
         try {
-          const results = await searchMoviesInTMDb(searchTerm);
+          const results = await searchMoviesInTMDb(searchTerm, mediaType);
           console.log("Search results:", results);
           setSearchResults(results.results || []);
         } catch (error) {
@@ -25,7 +25,7 @@ const Movie = ({ searchTerm }) => {
 
       performSearch();
     }
-  }, [searchTerm]);
+  }, [searchTerm, mediaType]);
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["movies", page, mediaType],
