@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Movie from "./components/Movie";
+import MovieDetails from "./components/MovieDetails"; // make sure to create this component
 import "./App.css";
 import { useMovieStore } from "./store/store";
 
@@ -22,8 +24,9 @@ const App = () => {
   const toggleMediaType = () => {
     setMediaType(mediaType === "movies" ? "tvshows" : "movies");
   };
+
   return (
-    <>
+    <BrowserRouter>
       {/* Search - placeholder for search functionality */}
       <input
         type="text"
@@ -34,14 +37,15 @@ const App = () => {
 
       {/* Toggle MediaType */}
       <button onClick={toggleMediaType}>
-        {" "}
         {mediaType === "movies" ? "Movies" : "TV Shows"}
       </button>
 
-      {/* Movie Component */}
-      <Movie searchTerm={searchTerm} />
+      <Routes>
+        <Route path="/" element={<Movie searchTerm={searchTerm} />} />
+        <Route path="/movie/:tmdbId" element={<MovieDetails />} />
+      </Routes>
 
-      {/* Pagination */}
+      {/* Pagination (Consider moving inside Movie if it's only relevant there) */}
       <div>
         <button onClick={goToPreviousPage} disabled={page === 1}>
           Previous
@@ -49,7 +53,7 @@ const App = () => {
         <span>Page {page} </span>
         <button onClick={goToNextPage}>Next</button>
       </div>
-    </>
+    </BrowserRouter>
   );
 };
 
