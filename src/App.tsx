@@ -1,58 +1,15 @@
-import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Movie from "./components/Movie";
-import MovieDetails from "./components/MovieDetails"; // make sure to create this component
+import DetailsPage from "./pages/DetailsPage";
+import MovieList from "./components/MovieList";
 import "./App.css";
-import { useMovieStore } from "./store/store";
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const { page, setPage, mediaType, setMediaType } = useMovieStore();
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const goToNextPage = () => {
-    setPage(page + 1);
-  };
-
-  const goToPreviousPage = () => {
-    setPage(page - 1);
-  };
-
-  const toggleMediaType = () => {
-    setMediaType(mediaType === "movies" ? "tvshows" : "movies");
-  };
-
   return (
     <BrowserRouter>
-      {/* Search - placeholder for search functionality */}
-      <input
-        type="text"
-        placeholder="Search for movies..."
-        value={searchTerm}
-        onChange={handleSearch}
-      />
-
-      {/* Toggle MediaType */}
-      <button onClick={toggleMediaType}>
-        {mediaType === "movies" ? "Movies" : "TV Shows"}
-      </button>
-
       <Routes>
-        <Route path="/" element={<Movie searchTerm={searchTerm} />} />
-        {/* <Route path="/movie/:tmdbId" element={<MovieDetails />} /> */}
+        <Route path="/" element={<MovieList />} />
+        <Route path="/movie/:tmdbId" element={<DetailsPage />} />
       </Routes>
-
-      {/* Pagination (Consider moving inside Movie if it's only relevant there) */}
-      <div>
-        <button onClick={goToPreviousPage} disabled={page === 1}>
-          Previous
-        </button>
-        <span>Page {page} </span>
-        <button onClick={goToNextPage}>Next</button>
-      </div>
     </BrowserRouter>
   );
 };

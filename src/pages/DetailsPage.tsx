@@ -3,29 +3,16 @@ import { useParams } from "react-router-dom";
 import { fetchMovieDetails } from "../utils/api";
 import { useMovieStore } from "../store/store";
 
-const MovieDetails = () => {
+const imageBaseUrl = "https://image.tmdb.org/t/p/";
+const posterSize = "w500"; // You can choose other sizes as needed
+
+const DetailsPage = () => {
   const { mediaType } = useMovieStore();
   const { tmdbId } = useParams(); // This hooks allow us to access the URL parameters
   const [movieDetails, setMovieDetails] = useState(null); // State to store movie details
   const [isLoading, setIsLoading] = useState(true); // State to handle loading
   const [error, setError] = useState(null); // State to handle any error
 
-  useEffect(() => {
-    const getMovieDetails = async () => {
-      setIsLoading(true); // Start loading
-
-      try {
-        const details = await fetchMovieDetails(tmdbId, mediaType);
-        setMovieDetails(details);
-      } catch (error) {
-        setError(error.message || "Failed to fetch movie details");
-      } finally {
-        setIsLoading(false); // Finish loading regardless of success or error
-      }
-    };
-
-    if (tmdbId) getMovieDetails(); // Only fetch details if tmdbId is available
-  }, [tmdbId]);
 
   if (isLoading) return <div>Loading...</div>; // Loading state
   if (error) return <div>Error: {error}</div>; // Error state
@@ -44,4 +31,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default DetailsPage;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMovies, searchMoviesInTMDb } from "../utils/api";
 import MovieDetails from "./MovieDetails";
@@ -9,9 +10,10 @@ type MovieProps = {
   searchTerm: string;
 };
 // Component to display movies
-const Movie = ({ searchTerm }: MovieProps) => {
+const MovieCard = ({ searchTerm }: MovieProps) => {
   const [searchResults, setSearchResults] = useState([]);
-  const { page, mediaType } = useMovieStore();
+  const { page, mediaType, setSelectedMovie } = useMovieStore();
+  const navigate = useNavigate(); // Hook for navigation
 
   // Fetch movies based on search term from TMDb
   useEffect(() => {
@@ -29,6 +31,11 @@ const Movie = ({ searchTerm }: MovieProps) => {
       performSearch();
     }
   }, [searchTerm, mediaType]);
+
+  const handleMovieSelect = (movie) => {
+    setSelectedMovie(movie);
+    navigate(`/movie/${movie.tmdb_id}`);
+  };
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["movies", page, mediaType],
@@ -48,7 +55,11 @@ const Movie = ({ searchTerm }: MovieProps) => {
     return (
       <div className="movie-container">
         {searchResults?.map((movie) => (
-          <div key={movie.tmdb_id} className="movie-card">
+          <div
+            key={movie.tmdb_id}
+            className="movie-card"
+            onClick={() => handleMovieSelect(movie)}
+          >
             <h3>{movie.title}</h3>
             <MovieDetails tmdbId={movie.id} />
           </div>
@@ -59,7 +70,11 @@ const Movie = ({ searchTerm }: MovieProps) => {
     return (
       <div className="movie-container">
         {data?.result.map((movie) => (
-          <div key={movie.tmdb_id} className="movie-card">
+          <div
+            key={movie.tmdb_id}
+            className="movie-card"
+            onClick={() => handleMovieSelect(movie)}
+          >
             <h3>{movie.title}</h3>
             <MovieDetails tmdbId={movie.tmdb_id} />
           </div>
@@ -68,4 +83,4 @@ const Movie = ({ searchTerm }: MovieProps) => {
     );
   }
 };
-export default Movie;
+export default MovieCard;
